@@ -1,0 +1,5 @@
+<command1> && <command2> >-> runs command2 only if command1 is successful
+
+groups >-> see to which groups the logged user belongs
+
+sudo adduser <username> <groupName> >-> add user <username> to group <groupName>

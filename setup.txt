@@ -1,0 +1,24 @@
+1. configure non-free sources for apt
+	- use https://wiki.debian.org/SourcesList as guide
+	- paste to file /etc/apt/sources.list
+
+2. su && run apt-get update
+
+3. install sudo command
+	- su && apt-get install sudo
+
+4. add user to sudoers
+	- su && adduser sha sudo
+
+5. install wifi drivers: https://wiki.debian.org/iwlwifi?fbclid=IwAR1_LPHrp4YUg1kxhu-Z6qGtU-Fl6dzKEA3BAzaeFXpY2gz5TT52n06TrWM
+	- apt-get update && apt-get install firmware-iwlwifi
+
+6. install battery saver utilities
+	- sudo apt-get install powertop -y
+	- sudo powertop --auto-tune
+
+7. install tmux and vim
+	- sudo apt-get install tmux vim
+
+8. install git
+	- sudo apt-get install git
