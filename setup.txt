@@ -21,7 +21,8 @@
 	- sudo apt-get install tmux vim
 
 8. install git
-	- sudo apt-get install git
+	- sudo apt-get install giti
+	- configure by editing file ~/.gitconfig
 
 9. install docker
 	- install prerequisites:
