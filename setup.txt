@@ -22,3 +22,20 @@
 
 8. install git
 	- sudo apt-get install git
+
+9. install docker
+	- install prerequisites:
+	- sudo apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
+
+	- add key
+	- curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+	- add repository
+	- sudo add-apt-repository "deb [arch=amd64] ${REPO} $(lsb_release -cs) stable"
+
+	- install docker
+	- apt-get install -y docker-ce
+	
+10. install deluge
+	- sudo apt-get install deluge
+

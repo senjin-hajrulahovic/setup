@@ -3,3 +3,5 @@
 groups >-> see to which groups the logged user belongs
 
 sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
+
+sudo !! >-> run previous command with sudo prepended
