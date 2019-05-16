@@ -23,8 +23,13 @@
 8. install git
 	- sudo apt-get install giti
 	- configure by editing file ~/.gitconfig
+	
+9. install java:
+	- sudo apt-get install openjdk-8-jdk
+	- sudo apt-get install openjdk-11-jdk
+	- sudo echo JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" >> /etc/environment
 
-9. install docker
+10. install docker
 	- install prerequisites:
 	- sudo apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
 
@@ -37,6 +42,6 @@
 	- install docker
 	- apt-get install -y docker-ce
 	
-10. install deluge
+11. install deluge
 	- sudo apt-get install deluge
 
