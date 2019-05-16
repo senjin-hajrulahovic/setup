@@ -5,3 +5,18 @@ groups >-> see to which groups the logged user belongs
 sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
 
 sudo !! >-> run previous command with sudo prepended
+
+docker build -t <name>:<optioanlTag> >-> name and optional tag an image
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+        - -f >-> use Dockerfile from a different path
+        - uses someOtherDir as the build context
+
+Dockerfile
+        - FROM >-> define the base image
+        - RUN >-> runs the defined command inside the container
+        - CMD >-> should be used to run the software contained by the image
+        - EXPOSE >-> indicates the ports on which a container listens for connections
+        - ENV <key>=<value> >-> create an environment varabiable wirh name key and value <value>
+        - COPY >-> supports only basic copying of local files into the container
+        - ADD >-> similiar to COPY additionaly has local-only tar extraction
