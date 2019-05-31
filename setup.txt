@@ -45,3 +45,9 @@
 11. install deluge
 	- sudo apt-get install deluge
 
+
+
+///////////////////////
+
+git config --global core.editor "vim" >-> set vim as git editor
+sudo update-alternatives --config editor >-> set vim as default editor
