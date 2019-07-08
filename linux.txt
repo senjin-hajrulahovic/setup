@@ -6,11 +6,253 @@ sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
 
 sudo !! >-> run previous command with sudo prepended
 
+docker build -t <name>:<optioanlTag> >-> name and optional tag an image
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+        - -f >-> use Dockerfile from a different path
+        - uses someOtherDir as the build context
+
+Dockerfile
+        - FROM >-> define the base image
+        - RUN >-> runs the defined command inside the container
+        - CMD >-> should be used to run the software contained by the image
+        - EXPOSE >-> indicates the ports on which a container listens for connections
+        - ENV <key>=<value> >-> create an environment varabiable wirh name key and value <value>
+        - COPY >-> supports only basic copying of local files into the container
+        - ADD >-> similiar to COPY additionaly has local-only tar extraction
+
+echo -e <content> >-> enable character escaping like '\n'
+echo <content> >> <file> >-> appends content to file
+
+stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files
+
+apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
+
+scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
+
+mkdir -p <directory> >->
+	- no errors if directories already exist
+	- creates directory including parent directories
+
+mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
+
+grep '<text>' <sourceFilePath> > <targetFilePath> >-> filter lines from SourceFile and add them to the targetFile
+
+git
+
+git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
+git push -u origin <branchName> >-> avoid additional prompt when pushing new branch to remote
+
+mvn
+
+mvn dependency:tree >-> output
+<some-dependency>:2.5:provided (version managed from 2.3; scope managed from compile)
+	- the version some-dependency would have transitively been 2.3
+	- but that version 2.5 was specifically asked for in your project, so that is what was used.
+
+<dependency> without <version>
+its possible to define a <dependencyManagement> configfuration in the parent pom to define versions of dependencies
+	- this has the result that we can omitt the <version> part of the dependency if it is defines using
+		dependencyManagement
+
+mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
+
+sbt
+	dockerBaseImage       := "openjdk:jre-alpine"
+	add enablePlugins(DockerPlugin) to build.sbt
+	sbt docker:publishLocal
+
+docker
+Docker’s main purpose is to give us run-time environments that we can re-create/reproduce on any machine (that runs Docker)
+
+A Docker image is not a runtime, it’s rather a collection of files, libraries and configuration files that build up an environment.
+
+while bind mounts are dependent on the directory structure of the host machine, volumes are completely managed by docker.
+
+docker run -d -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -p 8080:8080 jboss/keycloak >-> running keycloak in a docker container
+
+docker ps -a -q >-> lists only ids of all containers
+docker image list -q >-> lists only ids of all images
+
+docker rm $(docker ps -a -q) >-> remove all containers
+docker rmi $(docker image list -q) >-> remove all imamges
+
+docker build -t <name>:<optioanlTag> >-> name and optional tag an image
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+	- -f >-> use Dockerfile from a different path
+	- uses someOtherDir as the build context
+
+Dockerfile
+	- FROM >-> define the base image
+	- RUN >-> runs the defined command inside the container, executes the command in a new layer and creates a new image
+	- CMD >-> should be used to run the software contained by the image
+	- EXPOSE >-> indicates the ports on which a container listens for connections
+	- ENV <key>=<value> >-> create an environment varabiable wirh name key and value <value>
+	- COPY >-> supports only basic copying of local files into the container
+	- ADD >-> similiar to COPY additionaly has local-only tar extraction
+	- ENTRYPOINT >-> is set to the images main command
+	- ARG[=<defaultValue>] >-> an argument which can be passed buring the building process, optional default value
+		- ENTRYPOINT ["s3cmd"]
+		- CMD ["--help"]
+		- docker run s3cmd
+	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
+			- for any mutable and/or user serviceable parts of your image
+
+docker-compose
+	-f <pathToDockerCompose> >-> path to the file which should be used by docker-compose
+	-p specify project name
+
+	docker-compose up >-> starts all containers defined by the docker-compose.yml file
+		-d >-> in detached mode
+	docker-compose images >-> lists all images container in the docker-compose file
+	docker-compose top >-> lists all running processes started by docker-compose
+	docker-compose stop >-> gracefully stops containers
+	docker-compose kill >-> kills all containers
+	docker-compose ps >-> list all containers
+
+	service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
+
+    - docker-compose creates a vritual dns, so you can use service names instea
+
+
+
+/////////////////////
+postgresql server can handle multiple concurrent connections from clients. To achieve this it starts ("forks") a new process for each connection. From that point on, the client and the server process communicate without intervention by the original postgres process. Thus, the master server process is always running, waiting for client connections, whereas client and associated server processes come and go.
+>-> run docker with enabled logging
+docker run -d -e POSTGRES_PASSWORD=postgres postgres -c 'log_statement=all' -c 'log_directory=pg_log'
+!! configuration passed with -c was not applied
+>> STUCK AT ENABLING LOGGING
+https://www.postgresql.org/docs/current/tutorial-createdb.html
+
+
+echo -e <content> >-> enable character escaping like '\n'
+echo <content> >> <file> >-> appends content to file
+
+stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files
+
+apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
+
+scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
+
+mkdir -p <directory> >->
+	- no errors if directories already exist
+	- creates directory including parent directories
+
+mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
+
+grep '<text>' <sourceFilePath> > <targetFilePath> >-> filter lines from SourceFile and add them to the targetFile
+
+grep -iRl <serchTerm> <dirParh>
+	-i >-> case insensitive
+	-R >-> recursively traverse content
+	-l >-> list files instead of content
+
+git
+
+git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
+git push -u origin <branchName> >-> avoid additional prompt when pushing new branch to remote
+
+mvn
+
+mvn dependency:tree >-> output
+<some-dependency>:2.5:provided (version managed from 2.3; scope managed from compile)
+	- the version some-dependency would have transitively been 2.3
+	- but that version 2.5 was specifically asked for in your project, so that is what was used.
+
+<dependency> without <version>
+its possible to define a <dependencyManagement> configfuration in the parent pom to define versions of dependencies
+	- this has the result that we can omitt the <version> part of the dependency if it is defines using
+		dependencyManagement
+
+mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
+
+exlcude tests based on annotation
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<configuration>
+		    <excludedGroups>full.path.Annotation</excludedGroups>
+		</configuration>
+	</plugin>
+
+	@Category(Annotation.class)
+	public void test() {}
+
+maven-assembly-plugin
+	assembly - is a group of files, directories, and dependencies that are assembled into an archive format and distributed
+	allows to aggregate the project output along with its dependencies
+
+maven-shade-plugin
+	to shade a library is to take the contents files of said library, put them in your own jar, and change their package
+
+sbt
+	dockerBaseImage       := "openjdk:jre-alpine"
+	add enablePlugins(DockerPlugin) to build.sbt
+	sbt docker:publishLocal
+
+//////////////////////////////
+
+cat /etc/*-release >-> print
+
+dns lookup
+	cat /etc/resolv.conf >-> get list of all dns server which the machine uses
+	dig +noall +answer <domain> >-> will display ip(s) assigned to domain
+	dig +noall +answer -x <ip> >-> will display domain name assigned to
+
+git config >-> use two different configurations for work/play related repositories
+
+	create ~/.gitconfig_work
+	create ~/.gitconfig_play
+
+	[includeIf "gitdir:~/workspace/"]
+	  path = .gitconfig_work
+	[includeIf "gitdir:~/playspace/"]
+	  path = .gitconfig_play
+
+tcpdump
+
+tcpdump -i any udp port <portNumber> >-> listen on port <portNumber> on any interface
+tcpdump -i eth0 udp port <portNumber> -w <fileName>.pcap >-> listen on interface eth0 on port <portNumber> and write to file
+
+scp
+
+scp <username>@<remoteIp>:<pathToFileToBeDownloaded> <targetLocalPath> >-> downloads file from remoteIp to local machine using ssh
+
+mvn -U clean dependency:tree -Ddetail=true
+
+lsof -i >-> listing of all internet and networking files
+lsof -i :<portNumber> >-> see whats running on port portNumber
+
+tmux
+	^b + c >-> create new window
+	^b + , >-> name window
+	^b + w >-> list all windows
+	^b + & >-> kill window
+
+vim
+    - cut/paste a line/block of text
+    v >-> enter visual mode
+    select text block
+    d >-> cut the block
+    p >-> paste the block
+
+
+<command1> && <command2> >-> runs command2 only if command1 is successful
+
+groups >-> see to which groups the logged user belongs
+
+sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
+
+sudo !! >-> run previous command with sudo prepended
+
 unzip <file>.zip -d <destination> >-> unzips dile file to destination
 
 docker
 
-	docker exec -it <postgresContainerName> psql -U <postgresUsername>	
+	docker exec -it <postgresContainerName> psql -U <postgresUsername>
 
 	Dockerfile
 		- ARG <argName> [=defaultValue] >-> pass argument when running docker build
@@ -28,11 +270,6 @@ docker
 
 		- docker-compose creates a vritual dns, so you can use service names instead of localhost or 0.0.0.0
 
-vim
-	- cut/paste a line/block of text
-	v >-> enter visual mode
-	select text block
-	d >-> cut the block
-	p >-> paste the block
+
 
 
