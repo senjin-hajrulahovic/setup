@@ -5,3 +5,34 @@ groups >-> see to which groups the logged user belongs
 sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
 
 sudo !! >-> run previous command with sudo prepended
+
+unzip <file>.zip -d <destination> >-> unzips dile file to destination
+
+docker
+
+	docker exec -it <postgresContainerName> psql -U <postgresUsername>	
+
+	Dockerfile
+		- ARG <argName> [=defaultValue] >-> pass argument when running docker build
+			- arguments are passed with --build-args flag
+
+	docker-compose
+		- docker-compose up -d >-> run in detached mode
+		- docker-compose run <serviceName> <command> >-> same as docker exec -it <containerName> <command>
+		- docker-compose restart <serviceName> >-> starts a single service
+		- docker-compose up --force-recreate >-> forcec recreation of images
+		- docker-compose up --build >-> rebuild images before runningi
+		- docker-compose rm >-> remove all stoped containers created by docker-compose
+
+		service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
+
+		- docker-compose creates a vritual dns, so you can use service names instead of localhost or 0.0.0.0
+
+vim
+	- cut/paste a line/block of text
+	v >-> enter visual mode
+	select text block
+	d >-> cut the block
+	p >-> paste the block
+
+
