@@ -1,0 +1,49 @@
+docker
+Docker’s main purpose is to give us run-time environments that we can re-create/reproduce on any machine (that runs Docker)
+
+A Docker image is not a runtime, it’s rather a collection of files, libraries and configuration files that build up an environment.
+
+while bind mounts are dependent on the directory structure of the host machine, volumes are completely managed by docker.
+
+docker run -d -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -p 8080:8080 jboss/keycloak >-> running keycloak in a docker container
+
+docker ps -a -q >-> lists only ids of all containers
+docker image list -q >-> lists only ids of all images
+
+docker rm $(docker ps -a -q) >-> remove all containers
+docker rmi $(docker image list -q) >-> remove all imamges
+
+docker build -t <name>:<optioanlTag> >-> name and optional tag an image
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+	- -f >-> use Dockerfile from a different path
+	- uses someOtherDir as the build context
+
+Dockerfile
+	- FROM >-> define the base image
+	- RUN >-> runs the defined command inside the container, executes the command in a new layer and creates a new image
+	- CMD >-> should be used to run the software contained by the image
+	- EXPOSE >-> indicates the ports on which a container listens for connections
+	- ENV <key>=<value> >-> create an environment varabiable wirh name key and value <value>
+	- COPY >-> supports only basic copying of local files into the container
+	- ADD >-> similiar to COPY additionaly has local-only tar extraction
+	- ENTRYPOINT >-> is set to the images main command
+	- ARG[=<defaultValue>] >-> an argument which can be passed buring the building process, optional default value
+		- ENTRYPOINT ["s3cmd"]
+		- CMD ["--help"]
+		- docker run s3cmd 
+	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
+			- for any mutable and/or user serviceable parts of your image
+
+docker-compose
+	-f <pathToDockerCompose> >-> path to the file which should be used by docker-compose
+	-p specify project name
+
+	docker-compose up >-> starts all containers defined by the docker-compose.yml file
+		-d >-> in detached mode
+	docker-compose images >-> lists all images container in the docker-compose file
+	docker-compose top >-> lists all running processes started by docker-compose
+	docker-compose stop >-> gracefully stops containers
+	docker-compose kill >-> kills all containers
+	docker-compose ps >-> list all containers
+
