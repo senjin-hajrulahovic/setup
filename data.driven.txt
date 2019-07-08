@@ -96,4 +96,34 @@ also mean removing accidental complexity. Moseley and Marks [32] define complex�
 ity as accidental if it is not inherent in the problem that the software solves (as seen
 by the users) but arises only from the implementation.
 
+////////////////////////////////////////////////////////////////////////////////////
 
+CHAPTER 2 DATA MODELS ANDS QUERIES
+
+There are many different kinds of data models, and every data model embodies
+assumptions about how it is going to be used. Some kinds of usage are easy and some
+are not supported; some operations are fast and some perform badly; some data
+transformations feel natural and some are awkward.
+
+There are several driving forces behind the adoption of NoSQL databases, including:
+• A need for greater scalability than relational databases can easily achieve, includ‐
+ing very large datasets or very high write throughput
+• A widespread preference for free and open source software over commercial
+database products
+• Specialized query operations that are not well supported by the relational model
+• Frustration with the restrictiveness of relational schemas, and a desire for a more
+dynamic and expressive data model [5]
+
+If the database itself does not support joins, you have to emulate a join in application
+code by making multiple queries to the database.
+The work of making the join is shifted from the database to the application code.
+Even if the initial version of an application fits well in a join-free docu‐
+ment model, data has a tendency of becoming more interconnected as features are
+added to applications.
+
+The CODASYL model was a generalization of the hierarchical model. In the tree
+structure of the hierarchical model, every record has exactly one parent; in the net‐
+work model, a record could have multiple parents. For example, there could be one
+record for the "Greater Seattle Area" region, and every user who lived in that
+region could be linked to it. This allowed many-to-one and many-to-many relation‐
+ships to be modeled.
