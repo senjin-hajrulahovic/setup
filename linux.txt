@@ -122,3 +122,113 @@ docker run -d -e POSTGRES_PASSWORD=postgres postgres -c 'log_statement=all' -c '
 !! configuration passed with -c was not applied
 >> STUCK AT ENABLING LOGGING
 https://www.postgresql.org/docs/current/tutorial-createdb.html
+
+
+echo -e <content> >-> enable character escaping like '\n'
+echo <content> >> <file> >-> appends content to file
+
+stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files 
+
+apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
+
+scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
+
+mkdir -p <directory> >->
+	- no errors if directories already exist 
+	- creates directory including parent directories
+
+mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
+
+grep '<text>' <sourceFilePath> > <targetFilePath> >-> filter lines from SourceFile and add them to the targetFile
+
+grep -iRl <serchTerm> <dirParh>
+	-i >-> case insensitive
+	-R >-> recursively traverse content
+	-l >-> list files instead of content
+
+git
+
+git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
+git push -u origin <branchName> >-> avoid additional prompt when pushing new branch to remote
+
+mvn
+
+mvn dependency:tree >-> output
+<some-dependency>:2.5:provided (version managed from 2.3; scope managed from compile)
+	- the version some-dependency would have transitively been 2.3 
+	- but that version 2.5 was specifically asked for in your project, so that is what was used.
+
+<dependency> without <version>
+its possible to define a <dependencyManagement> configfuration in the parent pom to define versions of dependencies
+	- this has the result that we can omitt the <version> part of the dependency if it is defines using
+		dependencyManagement
+
+mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
+
+exlcude tests based on annotation
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<configuration>
+		    <excludedGroups>full.path.Annotation</excludedGroups>
+		</configuration>
+	</plugin>	
+
+	@Category(Annotation.class)
+	public void test() {}
+
+maven-assembly-plugin
+	assembly - is a group of files, directories, and dependencies that are assembled into an archive format and distributed
+	allows to aggregate the project output along with its dependencies
+
+maven-shade-plugin
+	to shade a library is to take the contents files of said library, put them in your own jar, and change their package
+
+sbt
+	dockerBaseImage       := "openjdk:jre-alpine"
+	add enablePlugins(DockerPlugin) to build.sbt
+	sbt docker:publishLocal
+
+//////////////////////////////
+
+cat /etc/*-release >-> print 
+
+dns lookup
+	cat /etc/resolv.conf >-> get list of all dns server which the machine uses
+	dig +noall +answer <domain> >-> will display ip(s) assigned to domain
+	dig +noall +answer -x <ip> >-> will display domain name assigned to
+
+git config >-> use two different configurations for work/play related repositories
+
+	create ~/.gitconfig_work
+	create ~/.gitconfig_play
+
+	[includeIf "gitdir:~/workspace/"]
+	  path = .gitconfig_work
+	[includeIf "gitdir:~/playspace/"]
+	  path = .gitconfig_play
+
+tcpdump
+
+tcpdump -i any udp port <portNumber> >-> listen on port <portNumber> on any interface
+tcpdump -i eth0 udp port <portNumber> -w <fileName>.pcap >-> listen on interface eth0 on port <portNumber> and write to file
+
+scp
+
+scp <username>@<remoteIp>:<pathToFileToBeDownloaded> <targetLocalPath> >-> downloads file from remoteIp to local machine using ssh
+
+mvn -U clean dependency:tree -Ddetail=true
+
+lsof -i >-> listing of all internet and networking files
+lsof -i :<portNumber> >-> see whats running on port portNumber
+
+tmux
+	^b + c >-> create new window
+	^b + , >-> name window
+	^b + w >-> list all windows
+	^b + & >-> kill window
+
+
+
+
