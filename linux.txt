@@ -29,6 +29,8 @@ chmod <permission> -R <path> >-> recursively set permission to dir path and all 
 
 apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
 
+apt-get autoremove >-> removes dangling transient dependency packages
+
 scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
 
 mkdir -p <directory> >->

@@ -7,8 +7,16 @@ while bind mounts are dependent on the directory structure of the host machine, 
 
 docker run -d -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -p 8080:8080 jboss/keycloak >-> running keycloak in a docker container
 
+docker attach --no-stdin <containerName/Id> >-> prints the containers output to the teminal
+
+docker logs --timestamps <containerName/Id> >-> print timestamped logs to console
+
 docker ps -a -q >-> lists only ids of all containers
 docker image list -q >-> lists only ids of all images
+
+docker images <searchTerm> >-> lists all local images which contain searchTerm in their name
+
+docker history <imageName> >-> prints a list of image layers
 
 docker rm $(docker ps -a -q) >-> remove all containers
 docker rmi $(docker image list -q) >-> remove all imamges
@@ -19,6 +27,41 @@ docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
 	- -f >-> use Dockerfile from a different path
 	- uses someOtherDir as the build context
 
+	shell and exec forms
+		RUN, CMD and ENTRYPOINT	can be specified in shell or exec form
+
+		shell form:
+			<instruction> <command>
+			RUN apt-get install python3
+			CMD echo "Hello world"
+			ENTRYPOINT echo "Hello world"
+				
+		will be executex as:
+			/bin/sh -c <command>
+
+			Dockerfile
+			ENV name John Dow
+			ENTRYPOINT echo "Hello, $name"
+
+			when run with `docker run -it <image>`
+
+			Hello, John Doe
+	
+		exec form:
+			<instruction> ["executable", "param1", "param2", ...]
+
+			RUN ["apt-get", "install", "python3"]
+			CMD ["/bin/echo", "Hello world"]
+			ENTRYPOINT ["/bin/echo", "Hello world"]
+
+			Dockerfile
+			ENV name John Doe
+			ENTRYPOINT ["/bin/echo", "Hello, $name"]
+
+			running `docker run -it <image>`
+			
+			Hello, $name >-> no shell processing took place
+					
 Dockerfile
 	- FROM >-> define the base image
 	- RUN >-> runs the defined command inside the container, executes the command in a new layer and creates a new image
@@ -46,4 +89,7 @@ docker-compose
 	docker-compose stop >-> gracefully stops containers
 	docker-compose kill >-> kills all containers
 	docker-compose ps >-> list all containers
+
+	
+
 
