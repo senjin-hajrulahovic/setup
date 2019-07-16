@@ -1,0 +1,129 @@
+Fortunately, behind the rapid changes in technology, there are enduring principles
+that remain true, no matter which version of a particular tool you are using. If you
+understand those principles, you’re in a position to see where each tool fits in, how to
+make good use of it, and how to avoid its pitfalls.
+
+Reliability
+The system should continue to work correctly (performing the correct function at
+the desired level of performance) even in the face of adversity (hardware or soft‐
+ware faults, and even human error)
+
+The things that can go wrong are called faults, and systems that anticipate faults and
+can cope with them are called fault-tolerant or resilient.
+
+Note that a fault is not the same as a failure [2]. A fault is usually defined as one com‐
+ponent of the system deviating from its spec, whereas a failure is when the system as a
+whole stops providing the required service to the user.
+
+Scalability
+As the system grows (in data volume, traffic volume, or complexity), there should
+be reasonable ways of dealing with that growth.
+
+Scalability is the term we use to describe a system’s ability to cope with increased
+load.
+
+Maintainability
+Over time, many different people will work on the system (engineering and oper‐
+ations, both maintaining current behavior and adapting the system to new use
+cases), and they should all be able to work on it productively.
+
+
+Latency and response time are often used synonymously, but they
+are not the same. The response time is what the client sees: besides
+the actual time to process the request (the service time), it includes
+network delays and queueing delays. Latency is the duration that a
+request is waiting to be handled—during which it is latent, await‐
+ing service [ 17 ].
+
+It’s common to see the average response time of a service reported. (Strictly speaking,
+the term “average” doesn’t refer to any particular formula, but in practice it is usually
+understood as the arithmetic mean: given n values, add up all the values, and divide
+by n.) However, the mean is not a very good metric if you want to know your “typi‐
+cal” response time, because it doesn’t tell you how many users actually experienced
+that delay.
+Usually it is better to use percentiles. If you take your list of response times and sort it
+from fastest to slowest, then the median is the halfway point: for example, if your
+median response time is 200 ms, that means half your requests return in less than
+200 ms, and half your requests take longer than that.
+
+Even if only a small percentage of backend calls are slow, the
+chance of getting a slow call increases if an end-user request requires multiple back‐
+end calls, and so a higher proportion of end-user requests end up being slow (an
+effect known as tail latency amplification [ 24 ]).
+
+People often talk of a dichotomy between scaling up (vertical scaling, moving to a
+more powerful machine) and scaling out (horizontal scaling, distributing the load
+across multiple smaller machines). Distributing load across multiple machines is also
+known as a shared-nothing architecture.
+
+In an early-stage startup or an unpro‐
+ven product it’s usually more important to be able to iterate quickly on product fea‐
+tures than it is to scale to some hypothetical future load.
+
+Even though they are specific to a particular application, scalable architectures are
+nevertheless usually built from general-purpose building blocks, arranged in familiar
+patterns.
+
+Yet, unfortunately, many people working on software systems dislike maintenance of
+so-called legacy systems—perhaps it involves fixing other people’s mistakes, or work‐
+ing with platforms that are now outdated, or systems that were forced to do things
+they were never intended for. Every legacy system is unpleasant in its own way, and
+so it is difficult to give general recommendations for dealing with them.
+
+However, we can and should design software in such a way that it will hopefully min‐
+imize pain during maintenance, and thus avoid creating legacy software ourselves. To
+this end, we will pay particular attention to three design principles for software
+systems:
+Operability
+Make it easy for operations teams to keep the system running smoothly.
+Simplicity
+Make it easy for new engineers to understand the system, by removing as much
+complexity as possible from the system. (Note this is not the same as simplicity
+of the user interface.)
+Evolvability
+Make it easy for engineers to make changes to the system in the future, adapting
+it for unanticipated use cases as requirements change. Also known as extensibil‐
+ity, modifiability, or plasticity.
+
+Small software projects can have delightfully simple and expressive code, but as
+projects get larger, they often become very complex and difficult to understand. This
+complexity slows down everyone who needs to work on the system, further increas‐
+ing the cost of maintenance. A software project mired in complexity is sometimes
+described as a big ball of mud [30]
+
+Making a system simpler does not necessarily mean reducing its functionality; it can
+also mean removing accidental complexity. Moseley and Marks [32] define complex‐
+ity as accidental if it is not inherent in the problem that the software solves (as seen
+by the users) but arises only from the implementation.
+
+////////////////////////////////////////////////////////////////////////////////////
+
+CHAPTER 2 DATA MODELS ANDS QUERIES
+
+There are many different kinds of data models, and every data model embodies
+assumptions about how it is going to be used. Some kinds of usage are easy and some
+are not supported; some operations are fast and some perform badly; some data
+transformations feel natural and some are awkward.
+
+There are several driving forces behind the adoption of NoSQL databases, including:
+• A need for greater scalability than relational databases can easily achieve, includ‐
+ing very large datasets or very high write throughput
+• A widespread preference for free and open source software over commercial
+database products
+• Specialized query operations that are not well supported by the relational model
+• Frustration with the restrictiveness of relational schemas, and a desire for a more
+dynamic and expressive data model [5]
+
+If the database itself does not support joins, you have to emulate a join in application
+code by making multiple queries to the database.
+The work of making the join is shifted from the database to the application code.
+Even if the initial version of an application fits well in a join-free docu‐
+ment model, data has a tendency of becoming more interconnected as features are
+added to applications.
+
+The CODASYL model was a generalization of the hierarchical model. In the tree
+structure of the hierarchical model, every record has exactly one parent; in the net‐
+work model, a record could have multiple parents. For example, there could be one
+record for the "Greater Seattle Area" region, and every user who lived in that
+region could be linked to it. This allowed many-to-one and many-to-many relation‐
+ships to be modeled.

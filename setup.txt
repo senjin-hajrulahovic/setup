@@ -23,7 +23,7 @@
 8. install git
 	- sudo apt-get install giti
 	- configure by editing file ~/.gitconfig
-	
+
 9. install java:
 	- sudo apt-get install openjdk-8-jdk
 	- sudo apt-get install openjdk-11-jdk
@@ -44,6 +44,30 @@
 	
 11. install deluge
 	- sudo apt-get install deluge
+
+11. install java
+	- add ppa
+	- sudo add-apt-repository ppa:openjdk-r/ppa
+
+	- install it
+	- sudo apt-get install openjdk-8-jdk
+
+12. install scala (with sbt)
+	- echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+	- sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+	- sudo apt-get update
+	- sudo apt-get install sbti
+
+13. install vscode
+	- Download vscode .deb
+	- sudo dpkg -i Downloads/code_<version>_amd64.deb
+
+14. install unzip
+	- sudo apt-get install unzip
+
+15. install maven
+	- sudo apt-get install maven
+	- add  export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java to ~/.baschrc
 
 
 
