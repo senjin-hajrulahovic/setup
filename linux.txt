@@ -25,7 +25,7 @@ echo -e <content> >-> enable character escaping like '\n'
 echo <content> >> <file> >-> appends content to file
 
 stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
-chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files 
 
 apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
 
@@ -34,7 +34,7 @@ apt-get autoremove >-> removes dangling transient dependency packages
 scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
 
 mkdir -p <directory> >->
-	- no errors if directories already exist
+	- no errors if directories already exist 
 	- creates directory including parent directories
 
 mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
@@ -50,7 +50,7 @@ mvn
 
 mvn dependency:tree >-> output
 <some-dependency>:2.5:provided (version managed from 2.3; scope managed from compile)
-	- the version some-dependency would have transitively been 2.3
+	- the version some-dependency would have transitively been 2.3 
 	- but that version 2.5 was specifically asked for in your project, so that is what was used.
 
 <dependency> without <version>
@@ -98,7 +98,7 @@ Dockerfile
 	- ARG[=<defaultValue>] >-> an argument which can be passed buring the building process, optional default value
 		- ENTRYPOINT ["s3cmd"]
 		- CMD ["--help"]
-		- docker run s3cmd
+		- docker run s3cmd 
 	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
 			- for any mutable and/or user serviceable parts of your image
 
@@ -114,12 +114,6 @@ docker-compose
 	docker-compose kill >-> kills all containers
 	docker-compose ps >-> list all containers
 
-	service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
-
-    - docker-compose creates a vritual dns, so you can use service names instea
-
-
-
 /////////////////////
 postgresql server can handle multiple concurrent connections from clients. To achieve this it starts ("forks") a new process for each connection. From that point on, the client and the server process communicate without intervention by the original postgres process. Thus, the master server process is always running, waiting for client connections, whereas client and associated server processes come and go.
 >-> run docker with enabled logging
@@ -133,14 +127,14 @@ echo -e <content> >-> enable character escaping like '\n'
 echo <content> >> <file> >-> appends content to file
 
 stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
-chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files 
 
 apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
 
 scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
 
 mkdir -p <directory> >->
-	- no errors if directories already exist
+	- no errors if directories already exist 
 	- creates directory including parent directories
 
 mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
@@ -161,7 +155,7 @@ mvn
 
 mvn dependency:tree >-> output
 <some-dependency>:2.5:provided (version managed from 2.3; scope managed from compile)
-	- the version some-dependency would have transitively been 2.3
+	- the version some-dependency would have transitively been 2.3 
 	- but that version 2.5 was specifically asked for in your project, so that is what was used.
 
 <dependency> without <version>
@@ -178,7 +172,7 @@ exlcude tests based on annotation
 		<configuration>
 		    <excludedGroups>full.path.Annotation</excludedGroups>
 		</configuration>
-	</plugin>
+	</plugin>	
 
 	@Category(Annotation.class)
 	public void test() {}
@@ -197,12 +191,12 @@ sbt
 
 //////////////////////////////
 
-cat /etc/*-release >-> print
+cat /etc/*-release >-> print 
 
 dns lookup
 	cat /etc/resolv.conf >-> get list of all dns server which the machine uses
 	dig +noall +answer <domain> >-> will display ip(s) assigned to domain
-	dig +noall +answer -x <ip> >-> will display domain name assigned to
+	dig +noall +answer -x <ip> >-> will display domain name assigned to ip
 
 git config >-> use two different configurations for work/play related repositories
 
@@ -233,44 +227,6 @@ tmux
 	^b + , >-> name window
 	^b + w >-> list all windows
 	^b + & >-> kill window
-
-vim
-    - cut/paste a line/block of text
-    v >-> enter visual mode
-    select text block
-    d >-> cut the block
-    p >-> paste the block
-
-
-<command1> && <command2> >-> runs command2 only if command1 is successful
-
-groups >-> see to which groups the logged user belongs
-
-sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
-
-sudo !! >-> run previous command with sudo prepended
-
-unzip <file>.zip -d <destination> >-> unzips dile file to destination
-
-docker
-
-	docker exec -it <postgresContainerName> psql -U <postgresUsername>
-
-	Dockerfile
-		- ARG <argName> [=defaultValue] >-> pass argument when running docker build
-			- arguments are passed with --build-args flag
-
-	docker-compose
-		- docker-compose up -d >-> run in detached mode
-		- docker-compose run <serviceName> <command> >-> same as docker exec -it <containerName> <command>
-		- docker-compose restart <serviceName> >-> starts a single service
-		- docker-compose up --force-recreate >-> forcec recreation of images
-		- docker-compose up --build >-> rebuild images before runningi
-		- docker-compose rm >-> remove all stoped containers created by docker-compose
-
-		service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
-
-		- docker-compose creates a vritual dns, so you can use service names instead of localhost or 0.0.0.0
 
 
 

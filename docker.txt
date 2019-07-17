@@ -61,7 +61,9 @@ docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
 			running `docker run -it <image>`
 			
 			Hello, $name >-> no shell processing took place
-					
+
+		CMD can be used to provide default parameters for ENTRYPOINT
+
 Dockerfile
 	- FROM >-> define the base image
 	- RUN >-> runs the defined command inside the container, executes the command in a new layer and creates a new image
@@ -77,6 +79,15 @@ Dockerfile
 		- docker run s3cmd 
 	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
 			- for any mutable and/or user serviceable parts of your image
+
+	VOLUME vs COPY >-> if a file changes frequently use a volume instead of copying a file
+						COPY requires an image rebuild for the changes to pbe applied
+
+run custom script inside container
+	COPY ./<scriptName>.sh / # copy script inside the container
+	RUN chmod +x /<scriptName>.sh # # make it executable
+	ENTRYPOINT ["/<scriptName>.sh"] # define startup script
+	CMD ["defaultArgument"] # define default arguments for entrypoint
 
 docker-compose
 	-f <pathToDockerCompose> >-> path to the file which should be used by docker-compose
