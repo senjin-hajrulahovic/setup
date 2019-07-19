@@ -26,6 +26,10 @@ docker commit -a "sentschy" <containerName> >-> creates an image from a containe
 docker build -t <name>:<optioanlTag> >-> name and optional tag an image
 
 docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+ 		- -f >-> use Dockerfile from a different path
+        - uses someOtherDir as the build context
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
 	- -f >-> use Dockerfile from a different path
 	- uses someOtherDir as the build context
 
@@ -78,7 +82,8 @@ Dockerfile
 	- ARG[=<defaultValue>] >-> an argument which can be passed buring the building process, optional default value
 		- ENTRYPOINT ["s3cmd"]
 		- CMD ["--help"]
-		- docker run s3cmd 
+		- docker run s3cmd
+		- arguments are passed with --build-args flag
 	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
 			- for any mutable and/or user serviceable parts of your image
 
@@ -102,6 +107,17 @@ docker-compose
 	docker-compose stop >-> gracefully stops containers
 	docker-compose kill >-> kills all containers
 	docker-compose ps >-> list all containers
+	docker-compose up -d >-> run in detached mode
+	docker-compose run <serviceName> <command> >-> same as docker exec -it <containerName> <command>
+	docker-compose restart <serviceName> >-> starts a single service
+	docker-compose up --force-recreate >-> forcec recreation of images
+	docker-compose up --build >-> rebuild images before runningi
+	docker-compose rm >-> remove all stoped containers created by docker-compose
+	
+	service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
+
+	- docker-compose creates a vritual dns, so you can use service names instead of localhost or 0.0.0.0
+
 
 	
 
