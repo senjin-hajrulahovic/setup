@@ -70,6 +70,17 @@ docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
 
 		CMD can be used to provide default parameters for ENTRYPOINT
 
+networking
+	bridge network does not allow container to container networking
+
+	docker network create <networkName> >-> create a custom docker network
+	
+	docker network inspect <networkName> >-> show network details
+
+	docker container run --network <networkName> >-> run a container connected to the network networkName
+
+	containers connected to the same network can reach each other using the container name 
+
 Dockerfile
 	- FROM >-> define the base image
 	- RUN >-> runs the defined command inside the container, executes the command in a new layer and creates a new image
