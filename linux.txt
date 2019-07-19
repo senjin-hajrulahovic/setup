@@ -1,3 +1,7 @@
+ll -r >-> files files ordered by datte in ascending order
+
+rm -rf /path/to/dir/* >-> delete content of dir
+
 <command1> && <command2> >-> runs command2 only if command1 is successful
 
 groups >-> see to which groups the logged user belongs
@@ -192,6 +196,15 @@ sbt
 //////////////////////////////
 
 cat /etc/*-release >-> print 
+
+-- add dns service
+	changes to /etc/resolv.conf are ephermal
+	
+	-- install resolverconf
+	sudo apt install resolveconf
+
+
+	
 
 dns lookup
 	cat /etc/resolv.conf >-> get list of all dns server which the machine uses

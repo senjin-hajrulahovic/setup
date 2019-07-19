@@ -21,6 +21,8 @@ docker history <imageName> >-> prints a list of image layers
 docker rm $(docker ps -a -q) >-> remove all containers
 docker rmi $(docker image list -q) >-> remove all imamges
 
+docker commit -a "sentschy" <containerName> >-> creates an image from a container
+
 docker build -t <name>:<optioanlTag> >-> name and optional tag an image
 
 docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
