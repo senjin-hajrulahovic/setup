@@ -1,6 +1,34 @@
 docker
 Docker’s main purpose is to give us run-time environments that we can re-create/reproduce on any machine (that runs Docker)
 
+vms vs containers
+
+The host machine (using the hypervisor) provides the VMs with resources, including RAM and CPU.
+A hypervisor allows for host computers to share their resources amongst the virtual machines that are running as guests on top of them.
+The VM that is running on the host machine (again, using a hypervisor) is also often called a “guest machine.” This guest machine 
+contains both the application and whatever it needs to run that application (e.g. system binaries and libraries). It also carries 
+an entire virtualized hardware stack of its own, including virtualized network adapters, storage, and CPU — which means it also has 
+its own full-fledged guest operating system. From the inside, the guest machine behaves as its own unit with its own dedicated resources. 
+From the outside, we know that it’s a VM — sharing resources provided by the host machine.
+
+Unlike a VM which provides hardware virtualization, a container provides operating-system-level virtualization by abstracting the “user space”.
+For all intent and purposes, containers look like a VM. For example, they have private space for processing, can execute commands as root, 
+have a private network interface and IP address, allow custom routes and iptable rules, can mount file systems, and etc.
+The operating system level architecture is being shared across containers.
+
+! The one big difference between containers and VMs is that containers *share* the host system’s kernel with other containers. !
+
+docker images
+Images define both what you want your packaged application and its dependencies to look like *and* what processes to run when it’s launched.
+
+union file system
+Docker uses Union File Systems to build up an image. You can think of a Union File System as a stackable file system, meaning files and
+directories of separate file systems (known as branches) can be transparently overlaid to form a single file system.
+The contents of directories which have the same path within the overlaid branches are seen as a single merged directory, 
+which avoids the need to create separate copies of each layer. Instead, they can all be given pointers to the same resource; 
+when certain layers need to be modified, it’ll create a copy and modify a local copy, leaving the original unchanged. 
+That’s how file systems can *appear* writable without actually allowing writes. (In other words, a “copy-on-write” system.)
+
 A Docker image is not a runtime, it’s rather a collection of files, libraries and configuration files that build up an environment.
 
 while bind mounts are dependent on the directory structure of the host machine, volumes are completely managed by docker.
