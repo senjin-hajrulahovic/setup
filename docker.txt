@@ -29,6 +29,8 @@ which avoids the need to create separate copies of each layer. Instead, they can
 when certain layers need to be modified, it’ll create a copy and modify a local copy, leaving the original unchanged. 
 That’s how file systems can *appear* writable without actually allowing writes. (In other words, a “copy-on-write” system.)
 
+By namespacing these resources, the process in container A isn’t even aware that the processes in containers B, C and D exist.
+
 The term “container” is really just an abstract concept to describe how a few different features work together to visualize a “container”. 
 
 A Docker image is not a runtime, it’s rather a collection of files, libraries and configuration files that build up an environment.

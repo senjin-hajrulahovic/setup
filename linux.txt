@@ -14,7 +14,8 @@ echo -e <content> >-> enable character escaping like '\n'
 echo <content> >> <file> >-> appends content to file
 
 stat <pathToFile> >-> get details about file/dir - also get permissions like `-rw-r--r--` as an integer as, e.g. 644
-chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files 
+chmod <permission> -R <path> >-> recursively set permission to dir path and all subdirs and files
+chroot >-> changes the root dir for the running process and all its child processes
 
 apt-get install -y <packageName> >-> installs packageName without the additional confirmation prompt
 
@@ -115,6 +116,11 @@ maven-assembly-plugin
 maven-shade-plugin
 	to shade a library is to take the contents files of said library, put them in your own jar, and change their package
 
+maven unpack plugin >-> used to unpack the jar in a directory
+maven unpack-dependencies >-> unpacka all jar dependencies
+
+fat jar >-> a jar which contains classes from all dependencies and the classes of the project
+
 sbt
 	dockerBaseImage       := "openjdk:jre-alpine"
 	add enablePlugins(DockerPlugin) to build.sbt
@@ -186,3 +192,15 @@ sudo adduser <username> <groupName> >-> add user <username> to group <groupName>
 sudo !! >-> run previous command with sudo prepended
 
 unzip <file>.zip -d <destination> >-> unzips dile file to destination
+
+namespaces
+	1. mount - isolates filesystem mount points
+	2. uts - isolates hostname and domainname
+	3. ipc - isolate interpocess communication (IPC) resources
+	4. pid - isolate the PID number space
+	5. network - isoalte network interface
+	6. user - isolate uid/guid number spaces
+	7. cgroup - isolate cgroup root directory
+
+namespaces provide - a way to limit what a process can see, to make it appear as though it’s the only process running on a host.
+Note that namespaces do not restrict access to physical resources such as CPU, memory and disk. That access is metered and restricted by a kernel feature called ‘cgroups’.
