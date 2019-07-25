@@ -1,23 +1,117 @@
 docker
 Docker’s main purpose is to give us run-time environments that we can re-create/reproduce on any machine (that runs Docker)
 
+vms vs containers
+
+The host machine (using the hypervisor) provides the VMs with resources, including RAM and CPU.
+A hypervisor allows for host computers to share their resources amongst the virtual machines that are running as guests on top of them.
+The VM that is running on the host machine (again, using a hypervisor) is also often called a “guest machine.” This guest machine 
+contains both the application and whatever it needs to run that application (e.g. system binaries and libraries). It also carries 
+an entire virtualized hardware stack of its own, including virtualized network adapters, storage, and CPU — which means it also has 
+its own full-fledged guest operating system. From the inside, the guest machine behaves as its own unit with its own dedicated resources. 
+From the outside, we know that it’s a VM — sharing resources provided by the host machine.
+
+Unlike a VM which provides hardware virtualization, a container provides operating-system-level virtualization by abstracting the “user space”.
+For all intent and purposes, containers look like a VM. For example, they have private space for processing, can execute commands as root, 
+have a private network interface and IP address, allow custom routes and iptable rules, can mount file systems, and etc.
+The operating system level architecture is being shared across containers.
+
+! The one big difference between containers and VMs is that containers *share* the host system’s kernel with other containers. !
+
+docker images
+Images define both what you want your packaged application and its dependencies to look like *and* what processes to run when it’s launched.
+
+union file system
+Docker uses Union File Systems to build up an image. You can think of a Union File System as a stackable file system, meaning files and
+directories of separate file systems (known as branches) can be transparently overlaid to form a single file system.
+The contents of directories which have the same path within the overlaid branches are seen as a single merged directory, 
+which avoids the need to create separate copies of each layer. Instead, they can all be given pointers to the same resource; 
+when certain layers need to be modified, it’ll create a copy and modify a local copy, leaving the original unchanged. 
+That’s how file systems can *appear* writable without actually allowing writes. (In other words, a “copy-on-write” system.)
+
+By namespacing these resources, the process in container A isn’t even aware that the processes in containers B, C and D exist.
+
+The term “container” is really just an abstract concept to describe how a few different features work together to visualize a “container”. 
+
 A Docker image is not a runtime, it’s rather a collection of files, libraries and configuration files that build up an environment.
 
 while bind mounts are dependent on the directory structure of the host machine, volumes are completely managed by docker.
 
 docker run -d -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -p 8080:8080 jboss/keycloak >-> running keycloak in a docker container
 
+docker attach --no-stdin <containerName/Id> >-> prints the containers output to the teminal
+
+docker logs --timestamps <containerName/Id> >-> print timestamped logs to console
+
 docker ps -a -q >-> lists only ids of all containers
 docker image list -q >-> lists only ids of all images
+
+docker images <searchTerm> >-> lists all local images which contain searchTerm in their name
+
+docker history <imageName> >-> prints a list of image layers
 
 docker rm $(docker ps -a -q) >-> remove all containers
 docker rmi $(docker image list -q) >-> remove all imamges
 
+docker commit -a "sentschy" <containerName> >-> creates an image from a container
+
 docker build -t <name>:<optioanlTag> >-> name and optional tag an image
+
+docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
+ 		- -f >-> use Dockerfile from a different path
+        - uses someOtherDir as the build context
 
 docker build -t <name:tag> -f <someDir>/Dockerfile <someOtherDir> >->
 	- -f >-> use Dockerfile from a different path
 	- uses someOtherDir as the build context
+
+	shell and exec forms
+		RUN, CMD and ENTRYPOINT	can be specified in shell or exec form
+
+		shell form:
+			<instruction> <command>
+			RUN apt-get install python3
+			CMD echo "Hello world"
+			ENTRYPOINT echo "Hello world"
+				
+		will be executex as:
+			/bin/sh -c <command>
+
+			Dockerfile
+			ENV name John Dow
+			ENTRYPOINT echo "Hello, $name"
+
+			when run with `docker run -it <image>`
+
+			Hello, John Doe
+	
+		exec form:
+			<instruction> ["executable", "param1", "param2", ...]
+
+			RUN ["apt-get", "install", "python3"]
+			CMD ["/bin/echo", "Hello world"]
+			ENTRYPOINT ["/bin/echo", "Hello world"]
+
+			Dockerfile
+			ENV name John Doe
+			ENTRYPOINT ["/bin/echo", "Hello, $name"]
+
+			running `docker run -it <image>`
+			
+			Hello, $name >-> no shell processing took place
+
+		CMD can be used to provide default parameters for ENTRYPOINT
+
+networking
+	bridge network does not allow container to container networking
+
+	docker network create <networkName> >-> create a custom docker network
+	
+	docker network inspect <networkName> >-> show network details
+
+	docker container run --network <networkName> >-> run a container connected to the network networkName
+
+	containers connected to the same network can reach each other using the container name 
 
 Dockerfile
 	- FROM >-> define the base image
@@ -31,9 +125,19 @@ Dockerfile
 	- ARG[=<defaultValue>] >-> an argument which can be passed buring the building process, optional default value
 		- ENTRYPOINT ["s3cmd"]
 		- CMD ["--help"]
-		- docker run s3cmd 
+		- docker run s3cmd
+		- arguments are passed with --build-args flag
 	- VOLUME >-> should be used to expose any database storage area, configuration storage, or files/folders created by the docker container
 			- for any mutable and/or user serviceable parts of your image
+
+	VOLUME vs COPY >-> if a file changes frequently use a volume instead of copying a file
+						COPY requires an image rebuild for the changes to pbe applied
+
+run custom script inside container
+	COPY ./<scriptName>.sh / # copy script inside the container
+	RUN chmod +x /<scriptName>.sh # # make it executable
+	ENTRYPOINT ["/<scriptName>.sh"] # define startup script
+	CMD ["defaultArgument"] # define default arguments for entrypoint
 
 docker-compose
 	-f <pathToDockerCompose> >-> path to the file which should be used by docker-compose
@@ -46,4 +150,18 @@ docker-compose
 	docker-compose stop >-> gracefully stops containers
 	docker-compose kill >-> kills all containers
 	docker-compose ps >-> list all containers
+	docker-compose up -d >-> run in detached mode
+	docker-compose run <serviceName> <command> >-> same as docker exec -it <containerName> <command>
+	docker-compose restart <serviceName> >-> starts a single service
+	docker-compose up --force-recreate >-> forcec recreation of images
+	docker-compose up --build >-> rebuild images before runningi
+	docker-compose rm >-> remove all stoped containers created by docker-compose
+	
+	service.<serviceName>.healthcheck.test: <command> >-> create healthcheck for service
+
+	- docker-compose creates a vritual dns, so you can use service names instead of localhost or 0.0.0.0
+
+
+	
+
 
