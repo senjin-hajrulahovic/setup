@@ -97,6 +97,8 @@ its possible to define a <dependencyManagement> configfuration in the parent pom
 
 mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
 
+mvn -Dtest=SingleTest test >-> execute SingleTest
+ 
 exlcude tests based on annotation
 	<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
