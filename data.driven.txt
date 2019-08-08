@@ -127,3 +127,12 @@ work model, a record could have multiple parents. For example, there could be on
 record for the "Greater Seattle Area" region, and every user who lived in that
 region could be linked to it. This allowed many-to-one and many-to-many relation‐
 ships to be modeled.
+
+The main arguments in favor of the document data model are schema flexibility, bet‐
+ter performance due to locality, and that for some applications it is closer to the data
+structures used by the application. The relational model counters by providing better
+support for joins, and many-to-one and many-to-many relationships.
+
+Document databases are sometimes called schemaless, but that’s misleading, as the
+code that reads the data usually assumes some kind of structure—i.e., there is an
+implicit schema, but it is not enforced by the database [20]

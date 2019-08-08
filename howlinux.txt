@@ -1,0 +1,244 @@
+Each process gets its own
+share of memory, and the kernel must ensure that each process keeps to its
+share.
+
+Processes normally use system calls to comunicate with the kernel.
+
+The implementation of a memory address map is called a page table.
+
+System calls (or syscalls) perform specific tasks that a user pro-
+cess alone cannot do well or at all. For example, the acts of opening, read-
+ing, and writing files all involve system calls.
+
+The main memory that the kernel allocates for user
+processes is called user space.
+
+A user is
+an entity that can run processes and own files.
+
+Root may terminate and alter another user’s processes and read any
+file on the local system. For this reason, root is known as the superuser.
+
+As powerful as the root user is, it still
+runs in the operating system’s user mode, not kernel mode.
+
+Groups are sets of users. The primary purpose of groups is to allow a
+user to share file access to other users in a group.
+
+cat <file1> <file2> >-> concatenates and prints content of file(s)
+cp <file1> <file2> <targetDir> >-> copies files to targetDir
+
+echo prefix*content*suffix >-> shell globbing prints all filenames which start with prefix, contain content and end with suffix 
+
+grep flags
+	- -i makes search case-insensitive
+	- -v prints every line that does not contain searched term
+
+grep <searchTerm> <fileName> >-> print all occurences of searchTerm in fileName
+
+less <pathToFile> >-> prints content in a scrollable way a screenful amount at a time
+	- type /<searchTerm> while in less to search forward
+	- type ?<searchTerm> while in less to search backwards
+
+diff <file1> <file2> >-> prints the difference between the two files
+
+find <path> -name <fileName> -print >-> prints the location of fileName inside path
+
+head <file> -n 20 >-> prints first 20 lines of a file
+tail <file> -n 20 >-> prints first 20 lines of a file
+
+STUFF=blah >-> creates a shell variable
+export STUFF >-> creates an environment variable
+	- environment variables
+
+A command path is a list of system directories that the shell
+searches when trying to locate a command
+
+20.06.2019
+
+command-line editing
+^B >-> move cursor left
+^F >-> move cursor right
+^P >-> view previous command
+^N >-> view next command
+^A >-> move cursor to the beggining of the line
+^E >-> move the cursot to the end of the line
+^W >-> erase preceding word
+^U >-> erase from cursor to beggining of line
+^K >-> erase from cursor to end of line
+^Y >-> paste erased text
+
+man <command> >-> print manual for command
+man -k <searchKey> >-> searcg manual page by keyword
+
+command 2> file >-> redircet stderr to file
+command 2>&1 file >-> send both stderr and stdin to file
+
+/////////////// processes //////////////////////////
+ps >-> prints a list of running processes on the machine
+	pid >-> process id
+	tty >-> terminal device ??? not clear
+	stat >-> process status
+	time >-> cpu time in minutes and seconds that the process has used so far
+	command >-> the command that started the process
+
+$$ evaulated to the pid of the current shell session
+
+ps
+	x >-> shows all your running processes
+	ax >-> shows all processes on the system
+	u >-> include more detailed information on processes
+	w >-> show full command names
+
+ps <pid> >-> print details about the process with id pid
+
+kill <pid> >-> ask the kernel to kill process with id <pid>
+
+kill -STOP <pid> >-> freeze process with id <pid>
+kill -CONT <pid> >-> resume process with id <pid>
+
+kill -KILL <pid> >-> forcibly kill process with id <pid>
+
+command & >-> run command in the background
+
+//////////// files and permissions /////////////////
+---------> type
+|--------> user permissions
+||  -----> group permissions
+||  |  --> other permissions (everyone else)
+||  |  |
+-rw-r--r---
+
+	r - readable
+	w - writable
+	x -> execurable
+	- nothing
+
+umask >-> prints the permissions that will be applied to all newly created files (defaults to 0022)
+umask <newValue> >-> to update setting for current session
+
+chmod g+r file >-> add read permission for group for file
+chmod o+r file >-> add read permission for others
+
+chmod go+r >-> add read permission for group and others
+
+chmod g-r file >-> remove read permission for group
+
+chmod 644 file >-> absolute change, change all bites at once
+
+	600 >-> user: read/write, group, other: none			/ files
+	644 >-> user: read/write, group, other: read 			/ files
+	700 >-> user: read/write/execute; group, other: none		/ directories, programs
+	711 >-> user: read/write/execute; group, other: execute 	/ directories
+	755 >-> user: read/write/execute; group, other: read/execute	/ directories, programs
+	
+Directories also have permissions. You can list the contents of a directory
+if it’s readable, but you can only access a file in a directory if the directory is
+executable. (One common mistake people make when setting the permis-
+sions of directories is to accidentally remove the execute permission when
+using absolute modes.)	
+
+Symbolic link is a file that points to another file or a directory, effectively
+creating an alias (like a shortcut in Windows). Symbolic links offer quick
+access to obscure directory paths.
+
+lrwxrwxrwx symlink >-> symbolic links have file type `l`
+
+Your system may also have links that point to other links,
+which are called chained symbolic links.
+
+ln -s <target> <linkName> >-> creates a symlink to target called linkName
+
+///////////////// compressing files ///////////////////
+
+gzip <fileName> >-> creates a compressed .gz file
+	-k --keep >-> to keep original file
+gunzip <fileName>.gz >-> unzips file
+
+tar cvf <archiveName>.tar <file1> <file2> ...
+	- c >-> create mode
+	- f >-> file option - must be followed by the archive name
+	- v >-> verbosity
+
+tar xvf <achiveName>.tar >-> extracts the tar file, leaving the original archive file unchanged
+tar tvf <achiveName>.tar >-> print content of tar file
+
+tar xvf <achiveName>.tar >-> unpack and preserve permissions (overrides umask settings)
+
+working with comoressed archives
+	starting with a file.tar.gz file
+		- first run gunzip file.tar.gz to get file.tar
+		- then run `tar tvf file.tar` to verify archive content
+		- then run `tar xvf file.tar` to extract archive
+
+	starting with file
+		- first run `tar cvf file.tar file` to create file.tar
+		- then run `gzip file.tar` to create file.tar.gz 
+
+zcat file.tar.gz >-> is the same as `gunzip -dc`
+	- d >-> decomporesses file
+	- c >-> pipes the output to stdin
+
+tar xvf - >-> unpacks archive received from stdin
+
+zcat file.tar.gz | tar xvf - >-> decompresses and unpacks arhive
+
+tar zxvf file.tar.gz >-> decompresses and unpacks archive
+	- z >-> decompresses .gz file before unpacking
+
+
+/////////// devices ////////////////
+
+devices are listed as files in /dev
+	ls -la /dev
+		all files which have b, c, p or s as file type are devices
+			b >-> block device - data consists of blocks (chunks)
+			c >-> character device - stream of data
+			p >-> pipe device
+			s >-> socket device
+
+
+/////////////////// processes ////////////
+
+top is more useful then ps
+	option which can be used with top
+		u >-> list processes of a particular user
+		M >-> sort processes by memory usage		
+		P >-> sort processes based on current CPU usage
+		T >-> sort processes based on total CPU usage
+		? >-> list all options
+
+top -p <processId> >-> monitor one or more processes over time
+
+lsof (LiSt Open Files) >-> lists open files and processes which use them
+	- can also be used for networking
+
+lsof <fileName> >-> lists only entries which match the argument
+lsof -p <processId> >-> list all open files by process with id processId
+
+strace (system call trace) >-> prints all system calls that a process makes
+ltrace (library trace)
+
+strace -o <process> >-> lists all system calls of process and all child processes
+
+A system call is a privileged operation that a user-space process
+asks the kernel to perform, such as opening and reading data from a file.
+
+When one process wants to start another
+process, it invokes the fork() system call to spawn a copy of itself, and then
+the copy uses a member of the exec() family of system calls to start running
+a new program.
+		
+threads
+	Unlike separate processes, which usually do not share system resources such as memory
+	and I/O connections with other processes, all threads inside a single process share
+	their system resources and some memory.
+
+	Although you can also achieve
+	simultaneous computation with multiple processes, threads start faster than
+	processes, and it is often easier and/or more efficient for threads to inter-
+	communicate using their shared memory than it is for processes to communicate 
+	over a channel such as a network connection or a pipe.
+
+ps m >-> display process thread information
+ps m -o pid,tid,command

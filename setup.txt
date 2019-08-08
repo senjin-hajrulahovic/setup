@@ -9,6 +9,9 @@
 
 4. add user to sudoers
 	- su && adduser sha sudo
+		- if adduser command cannot be found add /usr/sbin to path 
+		echo PATH=$PATH:/usr/sbin >> ~/.profile
+		- https://unix.stackexchange.com/questions/148105/bash-adduser-command-not-found-on-centos
 
 5. install wifi drivers: https://wiki.debian.org/iwlwifi?fbclid=IwAR1_LPHrp4YUg1kxhu-Z6qGtU-Fl6dzKEA3BAzaeFXpY2gz5TT52n06TrWM
 	- apt-get update && apt-get install firmware-iwlwifi
