@@ -31,6 +31,8 @@ mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
 
 grep '<text>' <sourceFilePath> > <targetFilePath> >-> filter lines from SourceFile and add them to the targetFile
 
+curl $(< file) >-> execute curl command with arguments from file
+
 git
 
 git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
@@ -50,6 +52,7 @@ its possible to define a <dependencyManagement> configfuration in the parent pom
 
 mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
 
+mvn dependency:purge-local-repository >-> deletes jars from local maven repository
 sbt
 	dockerBaseImage       := "openjdk:jre-alpine"
 	add enablePlugins(DockerPlugin) to build.sbt
@@ -70,6 +73,10 @@ mkdir -p <directory> >->
 	- creates directory including parent directories
 
 mv <fileName> <dirName> >-> moves <fileName> to the <dirName>
+
+kill -9 <pid> >-> kill process with id pid
+
+which <commandName> >-> prints the path to the command
 
 grep '<text>' <sourceFilePath> > <targetFilePath> >-> filter lines from SourceFile and add them to the targetFile
 
