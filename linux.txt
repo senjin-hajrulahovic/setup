@@ -90,6 +90,16 @@ git
 git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
 git push -u origin <branchName> >-> avoid additional prompt when pushing new branch to remote
 
+git config >-> use two different configurations for work/play related repositories
+
+	create ~/.gitconfig_work
+	create ~/.gitconfig_play
+
+	[includeIf "gitdir:~/workspace/"]
+	  path = .gitconfig_work
+	[includeIf "gitdir:~/playspace/"]
+	  path = .gitconfig_play
+
 mvn
 
 mvn dependency:tree >-> output
@@ -145,23 +155,21 @@ cat /etc/*-release >-> print
 	-- install resolverconf
 	sudo apt install resolveconf
 
-
-	
+nc netcat - is a utility that TODO
 
 dns lookup
 	cat /etc/resolv.conf >-> get list of all dns server which the machine uses
 	dig +noall +answer <domain> >-> will display ip(s) assigned to domain
 	dig +noall +answer -x <ip> >-> will display domain name assigned to ip
 
-git config >-> use two different configurations for work/play related repositories
+iptables - firewall utility
+	- accept -> allow connection
+	- drop -> drop connection without an error
+	- reject -> drop connection with error
 
-	create ~/.gitconfig_work
-	create ~/.gitconfig_play
-
-	[includeIf "gitdir:~/workspace/"]
-	  path = .gitconfig_work
-	[includeIf "gitdir:~/playspace/"]
-	  path = .gitconfig_play
+	iptables -L --line-numbers >-> list all iptables rules with line number
+	iptables -A OUTPUT -d <ip> -j DROP >-> drop all outgoing connections to ip
+	iptables -D <chain> <lineNumber> >-> delete rule for chain with lineNumber
 
 tcpdump
 
