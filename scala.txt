@@ -1,0 +1,15 @@
+type tags - objects that carry along all type information available at compile time, to runtime
+
+    import scala.reflect.runtime.universe._
+
+    def paramInfo[T](x: T)(implicit tag: TypeTag[T]): Unit = {
+        println(tag.tpe)
+        val targs = tag.tpe match { case TypeRef(_,_,args) => args }
+        println(s"type of $x has type arguments $targs")
+    }
+
+--
+
+import scala.collection.breakOut
+val map : Map[Int,String] = List("London", "France").map(x => (x.length, x))(breakOut)
+https://docs.scala-lang.org/tutorials/FAQ/breakout.html
