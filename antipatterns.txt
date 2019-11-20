@@ -1,0 +1,2 @@
+java streams (superfluous groupBy)
+    groupBy some propery followed by single get using the same porperty
