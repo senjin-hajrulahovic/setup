@@ -44,6 +44,13 @@ git
 git branch <newLocalBranchName> origin/<existingRemoteBranch> >-> checkout remote branch
 git push -u origin <branchName> >-> avoid additional prompt when pushing new branch to remote
 
+revert to older commit
+git reset --hard <last_working_commit_id> >-> revert to an earlier commit locally
+git push --force >-> apply changes to remote branch
+
+git reset -- >-> unstage all files
+git reset -- <path> >-> unstage file with path path
+
 mvn
 
 mvn dependency:tree >-> output
@@ -121,6 +128,8 @@ its possible to define a <dependencyManagement> configfuration in the parent pom
 mvn help:dependency-tree >-> generates a tree-like representation of direct/transitive dependencies
 
 mvn -Dtest=SingleTest test >-> execute SingleTest
+mvn -Dtest=TestClass#testOne+testTwo test >-> run multiple methods inside a class
+
  
 exlcude tests based on annotation
 	<plugin>
@@ -174,7 +183,7 @@ iptables - firewall utility
 	- reject -> drop connection with error
 
 	iptables -L --line-numbers >-> list all iptables rules with line number
-	iptables -A OUTPUT -d <ip> -j DROP >-> drop all outgoing connections to ip
+	iptables -A OUTPUT -d <ip> -j DROP >-> drop all outgoing connectionss to ip
 	iptables -D <chain> <lineNumber> >-> delete rule for chain with lineNumber
 
 tcpdump

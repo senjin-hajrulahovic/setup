@@ -1,0 +1,7 @@
+ctrl + shift + v >-> open clipboard
+ctrl + alt + b >-> lists all implementation of an interface on the classpath
+
+shift + alt + 8 >-> evalueate value
+
+alt + (<- || ->) >-> switch tabs
+
