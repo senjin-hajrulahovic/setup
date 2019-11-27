@@ -21,6 +21,12 @@ apt-get install -y <packageName> >-> installs packageName without the additional
 
 apt-get autoremove >-> removes dangling transient dependency packages
 
+>-> install package with dependecies
+dpkg -i <packageName>
+>-> fails due to missing dependencies
+apt -f install >-> will install packaName dependencies
+dpkg -i packageName
+
 scp <pathToFile/Dir> <destinationIp/HostName>:<destinationPath> >-> copies file/dir from host to destinationIp/Host
 
 mkdir -p <directory> >->
