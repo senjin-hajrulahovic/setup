@@ -107,6 +107,8 @@ git config >-> use two different configurations for work/play related repositori
 	[includeIf "gitdir:~/playspace/"]
 	  path = .gitconfig_play
 
+git diff --stat <commit-hash> >-> compares current commit with commit-hash
+
 mvn
 
 mvn dependency:tree >-> output
@@ -163,6 +165,10 @@ cat /etc/*-release >-> print
 	
 	-- install resolverconf
 	sudo apt install resolveconf
+
+>-> save session content to file
+scirpt >-> starts a script session
+script <outputFile> >-> saves session content to outputFile in current directory
 
 nc netcat - is a utility that TODO
 
