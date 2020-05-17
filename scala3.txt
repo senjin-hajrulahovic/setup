@@ -1,0 +1,1 @@
+sbt new lampepfl/dotty.g8 >-> create dotty project using sbt
