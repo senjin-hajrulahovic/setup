@@ -246,3 +246,6 @@ namespaces
 
 namespaces provide - a way to limit what a process can see, to make it appear as though it’s the only process running on a host.
 Note that namespaces do not restrict access to physical resources such as CPU, memory and disk. That access is metered and restricted by a kernel feature called ‘cgroups’.
+
+
+cat ./**/*.csv > single.csv >-> concatenate multiple csv files into a single file

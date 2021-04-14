@@ -11,3 +11,10 @@ docker run -d -e POSTGRES_PASSWORD=postgres postgres -c 'log_statement=all' -c '
 https://www.postgresql.org/docs/current/tutorial-createdb.html
 
 docker exec -it <postgresContainerName> psql -U <postgresUsername>
+
+
+SELECT * FROM pg_stat_activity ; >-> list all running processes
+
+
+SELECT pg_terminate_backend(<pid>); >-> forcefully kill process
+
